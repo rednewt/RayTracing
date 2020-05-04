@@ -1,11 +1,26 @@
 #include "ray.h"
 
+bool HitSphere(const Vec3& sphereCenter, const Ray& ray, double sphereRadius)
+{
+    auto oc = ray.origin - sphereCenter;
+    
+    auto a = ray.direction.LengthSquared();
+    auto b = 2.0 * VectorDot(ray.direction, oc);
+    auto c = oc.LengthSquared() - sphereRadius * sphereRadius;
+    
+    return b*b - 4*a*c > 0;
+}
+
+
 Vec3 RayColor(const Ray& ray)
 {
+    if (HitSphere(Vec3(0.0, 0.0, -1.0), ray, 0.5))
+        return Vec3(1.0, 0.0, 0.0);
+
     Vec3 normalized = VectorNormalize(ray.direction);
     double y = 0.5 * (normalized.y + 1.0); //convert to [0,1] from [-1, 1]
     
-    Vec3 colorA = Vec3(1.0, 0.0, 0.0);
+    Vec3 colorA = Vec3(1.0, 1.0, 1.0);
     Vec3 colorB = Vec3(0.5, 0.7, 1.0);
 
     return colorA + (colorB - colorA) * y;
