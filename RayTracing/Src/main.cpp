@@ -1,33 +1,16 @@
-#include "ray.h"
+#include "sphere.h"
 
-double HitSphere(const Vec3& sphereCenter, const Ray& ray, double sphereRadius)
-{
-    auto oc = ray.origin - sphereCenter;
-    
-    //solves quadratic equation of ray-sphere intersection (simplified)
-    auto a = ray.direction.LengthSquared();
-    auto half_b = VectorDot(ray.direction, oc);
-    auto c = oc.LengthSquared() - sphereRadius * sphereRadius;
-
-    auto D = half_b*half_b - a*c;
-
-    if (D < 0)
-        return -1.0;
-
-    return (-half_b - sqrt(D)) / a;
-}
-
+Sphere sp = Sphere(Vec3(0, 0, -4), 2);
 
 Vec3 RayColor(const Ray& ray)
 {
-    auto t = HitSphere(Vec3(0.0, 0.0, -1.0), ray, 0.5);
-
-    if (t > 0.0)
+    HitRecord r;
+  
+    if (sp.Hit(ray, 0, DBL_MAX, r))
     {
-        Vec3 normal = VectorNormalize(ray.At(t) - Vec3(0.0, 0.0, -1.0));
-        return 0.5 * (normal + Vec3(1.0, 1.0, 1.0));
+        return 0.5 * (r.normal + Vec3(1.0, 1.0, 1.0));
     }
-        
+
     Vec3 normalized = VectorNormalize(ray.direction);
     double y = 0.5 * (normalized.y + 1.0); //convert to [0,1] from [-1, 1]
     
