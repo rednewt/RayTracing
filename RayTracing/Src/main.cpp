@@ -1,16 +1,13 @@
 #include "sphere.h"
+#include "camera.h"
+#include "utility.h"
 
-Sphere sp = Sphere(Vec3(0, 0, -4), 2);
-
-Vec3 RayColor(const Ray& ray)
+Vec3 RayColor(const Ray& ray, const Hittable& world)
 {
     HitRecord r;
-  
-    if (sp.Hit(ray, 0, DBL_MAX, r))
-    {
+    if (world.Hit(ray, 0, DBL_MAX, r))
         return 0.5 * (r.normal + Vec3(1.0, 1.0, 1.0));
-    }
-
+    
     Vec3 normalized = VectorNormalize(ray.direction);
     double y = 0.5 * (normalized.y + 1.0); //convert to [0,1] from [-1, 1]
     
@@ -21,30 +18,39 @@ Vec3 RayColor(const Ray& ray)
 }
 
 
+constexpr int g_canvasWidth = 800;
+constexpr int g_canvasHeight = 400;
+constexpr int g_sampleCount = 20;
+
 int main() 
 {
-    const int canvasWidth = 800;
-    const int canvasHeight = 400;
 
-    std::cout << "P3\n" << canvasWidth << ' ' << canvasHeight << "\n255\n";
+    std::cout << "P3\n" << g_canvasWidth << ' ' << g_canvasHeight << "\n255\n";
 
-    Vec3 lowerLeftCorner(-2.0, -1.0, -1.0);
-    Vec3 horizontal(4.0, 0.0, 0.0);
-    Vec3 vertical(0.0, 2.0, 0.0);
-    Vec3 origin(0.0, 0.0, 0.0);
 
-    for (int j = canvasHeight-1; j >= 0; --j)
+    HittableList world;
+    Camera camera;
+    
+    world.Add( std::make_shared<Sphere>( Vec3(0, 0, -1), 0.5) );
+    world.Add( std::make_shared<Sphere>( Vec3(0, -100.5, -1), 100) );
+
+    for (int j = g_canvasHeight-1; j >= 0; --j)
     {
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 
-        for (int i = 0; i < canvasWidth; ++i) 
+        for (int i = 0; i < g_canvasWidth; ++i) 
         {
-            auto u = static_cast<double>(i) / canvasWidth;
-            auto v = static_cast<double>(j) / canvasHeight;
+            Vec3 pixelColor;
+            for (int k = 0; k < g_sampleCount; ++k)
+            {
+                auto u = static_cast<double>(i + Utility::RandomDouble()) / g_canvasWidth;
+                auto v = static_cast<double>(j + Utility::RandomDouble()) / g_canvasHeight;
+                
+                Ray r = camera.GetRay(u, v);
+                pixelColor += RayColor(r, world);
+            }
 
-            Ray r = Ray(origin, lowerLeftCorner + u * horizontal + v * vertical);
-
-            RayColor(r).WriteColor(std::cout);
+            Utility::WriteColor(std::cout, pixelColor, g_sampleCount);
         }
     }
 

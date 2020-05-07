@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ray.h"
-
+#include <vector>
 
 struct HitRecord
 {
@@ -25,4 +25,18 @@ class Hittable
 {
 public:
 	virtual bool Hit(const Ray& ray, double t_min, double t_max, HitRecord& outRecord) const = 0;
+};
+
+
+class HittableList : public Hittable
+{
+public:
+	std::vector<std::shared_ptr<Hittable>> pObjects;
+public:
+	HittableList() = default; 
+	
+	void Clear() { pObjects.clear(); }
+	void Add(std::shared_ptr<Hittable> pObj) { pObjects.push_back(pObj); }
+	
+	bool Hit(const Ray& ray, double t_min, double t_max, HitRecord& outRecord) const override;
 };

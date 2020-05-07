@@ -60,12 +60,7 @@ public:
 		return sqrt(LengthSquared());
 	}
 	
-	void WriteColor(std::ostream& out)
-	{
-		out << static_cast<int>(255.999 * x) << ' '
-			<< static_cast<int>(255.999 * y) << ' '
-			<< static_cast<int>(255.999 * z) << '\n';
-	}
+	
 };
 
 inline std::ostream& operator<<(std::ostream& out, const Vec3& v) 
