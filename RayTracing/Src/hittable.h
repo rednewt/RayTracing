@@ -3,14 +3,17 @@
 #include "ray.h"
 #include <vector>
 
+class Material;
+
 struct HitRecord
 {
 	Vec3 normal;
 	Vec3 hitPoint;
 	bool frontFace;
 	double t;
+	std::shared_ptr<Material> materialPtr;
 
-	void setFaceNormal(const Ray& ray, const Vec3& outwardNormal)
+	void SetFaceNormal(const Ray& ray, const Vec3& outwardNormal)
 	{
 		frontFace = VectorDot(ray.direction, outwardNormal) < 0;
 		

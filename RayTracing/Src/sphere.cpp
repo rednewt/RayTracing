@@ -20,9 +20,10 @@ bool Sphere::Hit(const Ray& ray, double t_min, double t_max, HitRecord& outRecor
     {
         outRecord.t = t;
         outRecord.hitPoint = ray.At(t);
+        outRecord.materialPtr = materialPtr;
 
         Vec3 normal = (outRecord.hitPoint - center) / radius;
-        outRecord.setFaceNormal(ray, normal);
+        outRecord.SetFaceNormal(ray, normal);
 
         return true;
     }
@@ -33,9 +34,10 @@ bool Sphere::Hit(const Ray& ray, double t_min, double t_max, HitRecord& outRecor
     {
         outRecord.t = t;
         outRecord.hitPoint = ray.At(t);
+        outRecord.materialPtr = materialPtr;
 
         Vec3 normal = (outRecord.hitPoint - center) / radius;
-        outRecord.setFaceNormal(ray, normal);
+        outRecord.SetFaceNormal(ray, normal);
 
 
         return true;

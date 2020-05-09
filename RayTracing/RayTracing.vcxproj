@@ -20,12 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\hittable.cpp" />
+    <ClCompile Include="Src\lambertian.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\camera.h" />
     <ClInclude Include="Src\hittable.h" />
+    <ClInclude Include="Src\material.h" />
     <ClInclude Include="Src\ray.h" />
     <ClInclude Include="Src\sphere.h" />
     <ClInclude Include="Src\utility.h" />
