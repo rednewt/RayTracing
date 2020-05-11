@@ -21,6 +21,11 @@ namespace Utility
         return x;
     }
 
+    inline Vec3 ReflectVec3(const Vec3& vector, const Vec3& normal)
+    {
+        return vector - 2 * VectorDot(vector, normal) * normal;
+    }
+
     inline Vec3 RandomVec3()
     {
         return Vec3(RandomDouble(), RandomDouble(), RandomDouble());

@@ -1,7 +1,7 @@
 #include "sphere.h"
 #include "camera.h"
 #include "utility.h"
-#include "material.h"
+#include "materials.h"
 
 Vec3 RayColor(const Ray& ray, const Hittable& world, int depth)
 {
@@ -20,7 +20,7 @@ Vec3 RayColor(const Ray& ray, const Hittable& world, int depth)
         return Vec3(0, 0, 0);
     }
     
-    double lerpFactor = 0.5 * (VectorNormalize(ray.direction).y + 1.0); //convert to [0,1] from [-1, 1]
+    double lerpFactor = 0.5 * (VectorNormalize(ray.direction).y + 1.0); 
     
     Vec3 colorA = Vec3(1, 1, 1);
     Vec3 colorB = Vec3(0.5, 0.7, 1.0);
@@ -41,8 +41,13 @@ int main()
     HittableList world;
     Camera camera;
     
-    world.Add( std::make_shared<Sphere>( Vec3(0, 0, -1), 0.5, std::make_shared<Lambertian>(Vec3(0.5, 0.5, 0.5))) );
+    world.Add( std::make_shared<Sphere>( Vec3(0, 0, -1), 0.5, std::make_shared<Lambertian>(Vec3(0.8, 0.5, 0.3))) );
     world.Add( std::make_shared<Sphere>( Vec3(0, -100.5, -1), 100, std::make_shared<Lambertian>(Vec3(0.7, 0.3, 0.3))) );
+
+    world.Add(std::make_shared<Sphere>( Vec3(1, 0, -1), 0.5, std::make_shared<Metal>( Vec3(0.5, 0.5, 0.5), 0.1 ) ) );
+    world.Add(std::make_shared<Sphere>( Vec3(-1, 0, -1), 0.5, std::make_shared<Metal>( Vec3(0.8, 0.8, 0.8), 1 ) ) );
+
+
 
     for (int j = g_canvasHeight-1; j >= 0; --j)
     {

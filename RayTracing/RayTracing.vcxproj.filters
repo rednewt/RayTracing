@@ -24,7 +24,7 @@
     <ClCompile Include="Src\hittable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\lambertian.cpp">
+    <ClCompile Include="Src\materials.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="Src\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\material.h">
+    <ClInclude Include="Src\materials.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

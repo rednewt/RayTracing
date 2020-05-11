@@ -8,7 +8,7 @@ private:
     Vec3 lowerLeftCorner;
     Vec3 horizontal;
     Vec3 vertical;
-    Vec3 origin;
+    Vec3 origin; 
 public:
     Camera()
     {        
@@ -21,6 +21,6 @@ public:
     
     Ray GetRay(double u, double v) const
     {
-        return Ray(origin, lowerLeftCorner + u * horizontal + v * vertical);
+        return Ray(origin, lowerLeftCorner + u * horizontal + v * vertical - origin);
     }
 };

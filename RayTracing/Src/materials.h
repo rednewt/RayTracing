@@ -17,3 +17,15 @@ public:
 
 	bool Scatter(const Ray& ray, const HitRecord& record, Vec3& outattenuation, Ray& outScattered) const override;
 };
+
+
+class Metal : public Material
+{
+public:
+	Vec3 specular;
+	double fuzziness;
+public:
+	Metal(const Vec3& color, double fuzz) : specular(color), fuzziness(fuzz < 1 ? fuzz : 1) {}
+
+	bool Scatter(const Ray& ray, const HitRecord& record, Vec3& outattenuation, Ray& outScattered) const override;
+};
